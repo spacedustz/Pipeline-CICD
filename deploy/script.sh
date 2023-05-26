@@ -1,5 +1,4 @@
 #!/bin/bash
-chmod 500 /var/jenkins_home/workspace/Test-CICD/deploy/script.sh
 
 # 가동중인 Spring Boot 컨테이너 중지 & 삭제
 sudo docker ps -a -q --filter "name=cosmic" | grep -q . && docker stop cosmic && docker rm cosmic | true
