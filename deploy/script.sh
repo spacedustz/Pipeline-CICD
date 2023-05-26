@@ -7,7 +7,7 @@ docker ps -a -q --filter "name=cosmic" | grep -q . && docker stop cosmic && dock
 sleep 3s
 
 # 기존 Spring Boot Image 삭제
-docker rmi 43.201.243.115:5000/cosmic:1.0
+docker rmi -f 43.201.243.115:5000/cosmic:1.0
 
 # Docker Private Container Registry에 이미지 Pull
 docker pull 43.201.243.115:5000/cosmic:1.0
