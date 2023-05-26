@@ -1,0 +1,7 @@
+FROM openjdk:11
+EXPOSE 8080
+WORKDIR /app
+VOLUME /app
+ARG JAR=./build/libs/Pipeline-CICD-0.0.1-SNAPSHOT.jar
+COPY ${JAR} koboot.jar
+ENTRYPOINT ["java","-Dspring.profiles.active=local","-jar","/koboot.jar"]
