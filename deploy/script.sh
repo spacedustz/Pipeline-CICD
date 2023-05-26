@@ -9,6 +9,8 @@ if docker ps -a --filter "name=cosmic" | grep -q cosmic; then
     docker rm cosmic
 fi
 
+docker system prune
+
 # 컨테이너 종료 & 삭제될 때까지 대기
 sleep 3s
 
