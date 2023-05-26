@@ -9,6 +9,9 @@ docker rmi 43.201.243.115:5000/cosmic:1.0
 # Docker Private Container Registry에 이미지 Pull
 docker pull 43.201.243.115:5000/cosmic:1.0
 
+# 이미지 Pull이 완료될 동안 대기
+sleep 7s
+
 # Docker run
 docker run -d --privileged --name cosmic -p 8080:8080 -v /root/logs:/logs 43.201.243.115:5000/cosmic:1.0
 
