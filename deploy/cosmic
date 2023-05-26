@@ -1,6 +1,8 @@
 FROM openjdk:11
 EXPOSE 8080
 VOLUME /logs
-ARG JAR=../build/libs/Pipeline-CICD-0.0.1-SNAPSHOT.jar
+RUN cd ../
+ARG JAR=./build/libs/Pipeline-CICD-0.0.1-SNAPSHOT.jar
+RUN cd ../
 COPY ${JAR} koboot.jar
 ENTRYPOINT ["java","-Dspring.profiles.active=local","-jar","/koboot.jar"]
