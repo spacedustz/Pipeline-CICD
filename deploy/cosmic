@@ -3,5 +3,4 @@ EXPOSE 8080
 VOLUME /logs
 COPY script.sh /script.sh
 RUN chmod 500 /script.sh
-ENTRYPOINT ["java","-Dspring.profiles.active=local","-jar","/Pipeline-CICD-0.0.1-SNAPSHOT.jar"]
-CMD ["/script.sh"]
+ENTRYPOINT ["bash", "-c", "java","-Dspring.profiles.active=local","-jar","/Pipeline-CICD-0.0.1-SNAPSHOT.jar && /script.sh"]
