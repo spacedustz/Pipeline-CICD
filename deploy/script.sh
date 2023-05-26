@@ -12,5 +12,5 @@ sudo docker pull 43.201.243.115:5000/cosmic:1.0
 # Docker run
 sudo docker run -d --name cosmic -p 8080:8080 -v /root/logs:/logs 43.201.243.115:5000/cosmic:1.0
 
-# 사용하지 않는 불필요한 이미지 삭제p
+# 사용하지 않는 불필요한 이미지 삭제
 sudo docker rmi -f ${docker images -f "dangling=true" -q} || true
