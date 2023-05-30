@@ -1,6 +1,5 @@
 FROM openjdk:11
 VOLUME /logs
 EXPOSE 8080
-RUN cd ../
-COPY ./build/libs/Pipeline-CICD-0.0.1-SNAPSHOT.jar ./build/libs/Pipeline-CICD-0.0.1-SNAPSHOT.jar
+COPY /var/lib/jenkins/workspace/TestCICD/build/libs/Pipeline-CICD-0.0.1-SNAPSHOT.jar ./build/libs/Pipeline-CICD-0.0.1-SNAPSHOT.jar
 ENTRYPOINT ["java","-Dspring.profiles.active=local","-jar","/Pipeline-CICD-0.0.1-SNAPSHOT.jar"]
