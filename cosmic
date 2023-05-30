@@ -1,6 +1,6 @@
 FROM openjdk:11
 WORKDIR /app
-VOLUME /logs
+VOLUME /app/logs
 EXPOSE 8080
 ARG JAR=Pipeline-CICD-0.0.1-SNAPSHOT.jar
 COPY ./build/libs/${JAR} /app/koboot.jar
