@@ -1,8 +1,6 @@
 FROM openjdk:11
-RUN mkdir /app
-WORKDIR /app
-VOLUME /app/logs
+VOLUME /logs
 EXPOSE 8080
 ARG JAR=Pipeline-CICD-0.0.1-SNAPSHOT.jar
-COPY ../build/libs/${JAR} /app/${JAR}
+COPY ../build/libs/${JAR} /${JAR}
 ENTRYPOINT ["nohup", "java","-Dspring.profiles.active=local","-jar","$JAR", "&"]
