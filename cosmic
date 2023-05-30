@@ -1,4 +1,5 @@
 FROM openjdk:11
+RUN mkdir /app
 WORKDIR /app
 VOLUME /app/logs
 EXPOSE 8080
