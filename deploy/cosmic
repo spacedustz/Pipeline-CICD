@@ -3,4 +3,4 @@ VOLUME /logs
 EXPOSE 8080
 ARG JAR=Pipeline-CICD-0.0.1-SNAPSHOT.jar
 COPY ../build/libs/${JAR} /${JAR}
-ENTRYPOINT ["nohup", "java","-Dspring.profiles.active=local","-jar","$JAR", "&"]
+ENTRYPOINT ["nohup", "java","-Dspring.profiles.active=local","-jar","Pipeline-CICD-0.0.1-SNAPSHOT.jar", "&"]
