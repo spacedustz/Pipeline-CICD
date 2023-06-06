@@ -1,0 +1,40 @@
+pipeline {
+  agent any
+
+  stages {
+
+    stage('Clean Workspace') {
+      steps {
+        deleteDir()
+      }
+    }
+
+    stage('Checkout') {
+      steps {
+        script {
+          checkout([$class: 'GitSCM',
+
+          branches: [[name: 'SPACEPET-TEST']],
+          userRemoteConfigs: [[
+          url: 'git@github.com:<user-name>/<repo-name>>.git',
+          branch: '<branch-name>',
+          credentialsId: '<credential-id>>']]])
+        }
+      }
+    }
+
+    stage('Build') {
+      steps {
+        script {
+          def gitTags = sh(returnStdout: true, script: 'git tag --contains HEAD')
+          if (gitTags.contains('cicd')) {
+            sh 'chmod 500 spacepet-deploy/test/script.sh'
+            sh './spacepet-deploy/test/script.sh'
+          } else {
+            echo 'No tag containing "cicd" found.'
+          }
+        }
+      }
+    }
+  }
+}
