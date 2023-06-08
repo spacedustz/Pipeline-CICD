@@ -4,9 +4,6 @@
 - Declarative Pipeline [Done]
 
 ---
-
-# Declarative Pipeline 구축
-
 ## Jenkins Pipeline 구축
 
 Jenkins의 Item중 선언형 Pipeline으로 구축을 완료해서 글을 작성합니다.
@@ -68,7 +65,7 @@ echo ----- APT Update 종료 ---- | tee settinglogs
 
 
 # 기본 패키지 설치
-apt install -y firewalld net-tools curl wget gnupg lsb-release ca-certificates apt-transport-https software-properties-common gnupg-agent openjdk-11-jdk
+apt install -y firewalld mysql-client net-tools curl wget gnupg lsb-release ca-certificates apt-transport-https software-properties-common gnupg-agent openjdk-11-jdk
 echo ----- 기본 패키지 설치 완료 ----- >> settinglogs
 
 
@@ -89,6 +86,7 @@ firewall-cmd --permanent --add-port=443/tcp
 firewall-cmd --permanent --add-port=5000/tcp
 firewall-cmd --permanent --add-port=8080/tcp
 firewall-cmd --permanent --add-port=18080/tcp
+firewall-cmd --permanent --add-port=13306/tcp
 
 # Jenkins < - > Github Webhook을 위한 IP 허용
 firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address=192.30.252.0/22 port port="22" protocol="tcp" accept' && firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address=185.199.108.0/22 port port="22" protocol="tcp" accept' && firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address=140.82.112.0/20 port port="22" protocol="tcp" accept' && firewall-cmd --permanent --add-rich-rule='rule family="ipv4" source address=143.55.64.0/20 port port="22" protocol="tcp" accept' && firewall-cmd --permanent --add-rich-rule='rule family="ipv6" source address=2a0a:a440::/29 port port="22" protocol="tcp" accept' && firewall-cmd --permanent --add-rich-rule='rule family="ipv6" source address=2606:50c0::/32 port port="22" protocol="tcp" accept'
@@ -132,8 +130,9 @@ apt -y update
 apt install -y jenkins
 echo ----- Jenkins 설치 완료 ----- >> settinglogs
 
-# 도커 권한 부여
+# 도커, sudo 권한 부여
 usermod -aG docker jenkins
+usermod -aG sudo jenkins
 chmod 666 /var/run/docker.sock
 
 
@@ -250,15 +249,25 @@ spacepet-deploy/test/cosmic 이니까
 
 COPY 경로에 ../../ 를 해줘야합니다.
 
+최대 힙사이즈를 6GB로 제한하면서 빌드합니다.
+
+<br>
+
+Workdir은 /app 인데 Jar파일을 컨테이너 최상단에 두는 이유는 
+
+script.sh 스크립트에서 컨테이너 실행 시, 볼륨 마운트를 /app에 하는데,
+
+그때 /app 하위에 있던 jar가 사라지므로 Jar파일을 최상단 디렉터리로 복사했습니다.
+
 ```dockerfile
 FROM openjdk:11  
-RUN mkdir -p /app  
-WORKDIR /app  
-VOLUME /app  
-EXPOSE 8080  
-ARG JAR=dangnyang-1.7.08-SNAPSHOT.jar  
-COPY ../../build/libs/${JAR} /app/koboot.jar  
-ENTRYPOINT ["nohup", "java","-Dspring.profiles.active=prod","-jar","/app/koboot.jar", "&"]
+RUN mkdir -p /app    
+WORKDIR /app    
+VOLUME /app    
+EXPOSE 8080  ARG JAR=dangnyang-1.7.08-SNAPSHOT.jar    
+COPY ../../build/libs/${JAR} /koboot.jar  
+RUN chmod +x /koboot.jar  
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=test","-Xmx6144M","/koboot.jar"]
 ```
 
 ---
@@ -557,3 +566,4 @@ pipeline {
 }
 ```
 
+---
