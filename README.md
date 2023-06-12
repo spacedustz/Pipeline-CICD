@@ -844,7 +844,8 @@ FROM openjdk:11
 RUN mkdir -p /app    
 WORKDIR /app    
 VOLUME /app    
-EXPOSE 8080  ARG JAR=dangnyang-1.7.08-SNAPSHOT.jar    
+EXPOSE 8080  
+ARG JAR=dangnyang-1.7.08-SNAPSHOT.jar    
 COPY ../../build/libs/${JAR} /koboot.jar  
 RUN chmod +x /koboot.jar  
 ENTRYPOINT ["java","-jar","-Dspring.profiles.active=test","-Xmx6144M","/koboot.jar"]
