@@ -2,7 +2,7 @@
 - Test Github Actions + AWS Code Deploy & S3 & EC2 [Done]
 - Test Jenkins + AWS Lightsail [Done]
 - Declarative Pipeline [Done]
-- Blue & Green Zero-Downtime Deployment [Done]
+- Blue & Green Zero-Downtime Deployment [Partially Done]
 
 ---
 ## Jenkins Pipeline 구축
